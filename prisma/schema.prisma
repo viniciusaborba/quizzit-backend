@@ -6,3 +6,67 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model User {
+  id          String  @id @default(uuid())
+  name        String?
+  email       String  @unique
+  password    String?
+  avatarImage String? @map("avatar_image")
+  description String?
+  role        Role    @default(USER)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tokens    Token[]
+  questions Question[]
+
+  @@map("users")
+}
+
+enum TokenType {
+  PASSWORD_RECOVER
+}
+
+model Token {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+
+  type TokenType @default(PASSWORD_RECOVER)
+
+  @@map("tokens")
+}
+
+model Alternative {
+  id        String  @id @default(uuid())
+  isCorrect Boolean @default(false) @map("is_correct")
+  content   String
+
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId String   @map("question_id")
+
+  @@map("alternatives")
+}
+
+model Question {
+  id        String  @id @default(uuid())
+  title     String?
+  context   String?
+  statement String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+
+  alternatives Alternative[]
+
+  @@map("questions")
+}
