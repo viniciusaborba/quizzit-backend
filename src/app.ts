@@ -8,6 +8,8 @@ import {
   ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 
+import { errorHandler } from './http/error-handler'
+
 export const app = fastify().withTypeProvider<ZodTypeProvider>()
 
 app.register(fastifySwagger, {
@@ -33,6 +35,8 @@ app.register(fastifySwagger, {
 app.register(fastifySwaggerUi, {
   routePrefix: '/docs',
 })
+
+app.setErrorHandler(errorHandler)
 
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
