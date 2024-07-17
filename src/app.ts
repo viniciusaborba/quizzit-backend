@@ -8,6 +8,7 @@ import {
   ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 
+import { usersRoutes } from './http/controllers/users/routes'
 import { errorHandler } from './http/error-handler'
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>()
@@ -35,6 +36,8 @@ app.register(fastifySwagger, {
 app.register(fastifySwaggerUi, {
   routePrefix: '/docs',
 })
+
+app.register(usersRoutes)
 
 app.setErrorHandler(errorHandler)
 

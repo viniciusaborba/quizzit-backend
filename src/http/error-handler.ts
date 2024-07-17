@@ -1,4 +1,5 @@
 import { FastifyInstance } from 'fastify'
+import { UserAlreadyExistsError } from 'src/errors/user-already-exists'
 import { ZodError } from 'zod'
 
 type FastifyErrorHandler = FastifyInstance['errorHandler']
@@ -13,6 +14,10 @@ export const errorHandler: FastifyErrorHandler = async (
       message: 'Validation Error',
       errors: error.flatten().fieldErrors,
     })
+  }
+
+  if (error instanceof UserAlreadyExistsError) {
+    reply.status(400).send({ message: error.message })
   }
 
   console.error(error)
