@@ -1,3 +1,4 @@
+import fastifyJwt from '@fastify/jwt'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
 import fastify from 'fastify'
@@ -8,6 +9,7 @@ import {
   ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 
+import { env } from './env'
 import { usersRoutes } from './http/controllers/users/routes'
 import { errorHandler } from './http/error-handler'
 
@@ -31,6 +33,17 @@ app.register(fastifySwagger, {
     },
   },
   transform: jsonSchemaTransform,
+})
+
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+  cookie: {
+    cookieName: 'refreshToken',
+    signed: false,
+  },
+  sign: {
+    expiresIn: '10m',
+  },
 })
 
 app.register(fastifySwaggerUi, {

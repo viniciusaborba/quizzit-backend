@@ -1,4 +1,5 @@
 import { FastifyInstance } from 'fastify'
+import { InvalidCredentialsError } from 'src/errors/invalid-credentials-error'
 import { UserAlreadyExistsError } from 'src/errors/user-already-exists'
 import { ZodError } from 'zod'
 
@@ -17,6 +18,10 @@ export const errorHandler: FastifyErrorHandler = async (
   }
 
   if (error instanceof UserAlreadyExistsError) {
+    reply.status(400).send({ message: error.message })
+  }
+
+  if (error instanceof InvalidCredentialsError) {
     reply.status(400).send({ message: error.message })
   }
 
