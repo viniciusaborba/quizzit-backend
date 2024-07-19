@@ -1,3 +1,4 @@
+import { notStrictEqual } from 'assert'
 import { FastifyInstance } from 'fastify'
 import { InvalidCredentialsError } from 'src/errors/invalid-credentials-error'
 import { UserAlreadyExistsError } from 'src/errors/user-already-exists'
@@ -23,6 +24,10 @@ export const errorHandler: FastifyErrorHandler = async (
 
   if (error instanceof InvalidCredentialsError) {
     reply.status(400).send({ message: error.message })
+  }
+
+  if (error instanceof notStrictEqual) {
+    reply.status(404).send({ message: error.message })
   }
 
   console.error(error)
