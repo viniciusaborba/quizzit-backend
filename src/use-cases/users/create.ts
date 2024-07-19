@@ -2,7 +2,7 @@ import { User } from '@prisma/client'
 import { hash } from 'bcryptjs'
 import { Either, left, right } from 'src/@types/either'
 import { UserAlreadyExistsError } from 'src/errors/user-already-exists'
-import { UsersRepositories } from 'src/repositories/user-repositories'
+import { UsersRepository } from 'src/repositories/users-repositories'
 
 interface CreateUserRequest {
   name?: string
@@ -18,7 +18,7 @@ type CreateUserResponse = Either<
 >
 
 export class CreateUserUseCase {
-  constructor(private usersRepository: UsersRepositories) {}
+  constructor(private usersRepository: UsersRepository) {}
 
   async execute({
     email,

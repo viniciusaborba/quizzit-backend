@@ -1,6 +1,6 @@
 import { User } from '@prisma/client'
 import { compare } from 'bcryptjs'
-import { UsersRepositories } from 'src/repositories/users-repositories'
+import { UsersRepository } from 'src/repositories/users-repositories'
 
 import { Either, left, right } from '../../@types/either'
 import { InvalidCredentialsError } from '../../errors/invalid-credentials-error'
@@ -18,7 +18,7 @@ type AuthenticateUseCaseResponse = Either<
 >
 
 export class AuthenticateUserUseCase {
-  constructor(private usersRepository: UsersRepositories) {}
+  constructor(private usersRepository: UsersRepository) {}
 
   async execute({
     email,
