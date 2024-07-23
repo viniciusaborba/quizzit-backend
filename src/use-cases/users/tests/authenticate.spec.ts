@@ -36,4 +36,13 @@ describe('Authenticate user use case', () => {
 
     expect(user.id).toEqual(expect.any(String))
   })
+
+  it('should not be able to authenticate an nonexisting user', async () => {
+    const result = await sut.execute({
+      email: 'test@email.com',
+      password: '123456',
+    })
+
+    expect(result.isLeft()).toBe(true)
+  })
 })
