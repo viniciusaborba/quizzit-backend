@@ -1,5 +1,13 @@
-import { Prisma, Question } from '@prisma/client'
+import { Question } from '@prisma/client'
+
+interface QuestionsRepositoryCreateProps {
+  title?: string
+  context?: string
+  statement: string
+  userId: string
+  subjects: string[]
+}
 
 export interface QuestionsRepository {
-  create(data: Prisma.QuestionUncheckedCreateInput): Promise<Question>
+  create(data: QuestionsRepositoryCreateProps): Promise<Question>
 }

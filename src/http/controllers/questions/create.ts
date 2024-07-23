@@ -15,10 +15,11 @@ export async function createQuestionRoute(app: FastifyInstance) {
           context: z.string().optional(),
           statement: z.string().min(10),
           userId: z.string().uuid(),
+          subjects: z.array(z.string()),
         }),
         response: {
           201: z.object({
-            questionId: z.string().uuid(),
+            questionId: z.number(),
           }),
           400: z.object({
             message: z.string(),
@@ -27,7 +28,7 @@ export async function createQuestionRoute(app: FastifyInstance) {
       },
     },
     async (req, res) => {
-      const { statement, context, title, userId } = req.body
+      const { statement, context, title, userId, subjects } = req.body
 
       const createQuestionUseCase = makeCreateQuestionUseCase()
 
@@ -36,10 +37,11 @@ export async function createQuestionRoute(app: FastifyInstance) {
         context,
         userId,
         title,
+        subjects,
       })
 
       if (result.isLeft()) {
-        throw new Error('erro')
+        throw new Error('')
       }
 
       const question = result.value.question

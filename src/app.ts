@@ -11,6 +11,7 @@ import {
 
 import { env } from './env'
 import { questionsRoutes } from './http/controllers/questions/routes'
+import { subjectsRoutes } from './http/controllers/subjects/routes'
 import { usersRoutes } from './http/controllers/users/routes'
 import { errorHandler } from './http/error-handler'
 
@@ -53,6 +54,7 @@ app.register(fastifySwaggerUi, {
 
 app.register(usersRoutes)
 app.register(questionsRoutes)
+app.register(subjectsRoutes)
 
 app.setErrorHandler(errorHandler)
 
