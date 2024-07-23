@@ -3,8 +3,8 @@ import { Either, right } from 'src/@types/either'
 import { QuestionsRepository } from 'src/repositories/questions-repositories'
 
 interface CreateQuestionRequest {
-  title?: string | null
-  context?: string | null
+  title?: string
+  context?: string
   statement: string
   userId: string
 }
