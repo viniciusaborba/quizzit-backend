@@ -40,11 +40,6 @@ describe('Create question', async () => {
 
     const user = userRes.value.user
 
-    // const subjectRes = await createSubjectUseCase.execute({
-    //   name: 'test subject',
-    //   description: 'subject-description',
-    // })
-
     const [subjectRes1, subjectRes2] = await Promise.all([
       createSubjectUseCase.execute({
         name: 'test subject 1',
