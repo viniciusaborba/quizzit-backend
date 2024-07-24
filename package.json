@@ -6,6 +6,7 @@
   "scripts": {
     "test:user": "vitest run --dir src/use-cases/users/tests",
     "test:subject": "vitest run --dir src/use-cases/subjects/tests",
+    "test:question": "vitest run --dir src/use-cases/questions/tests",
     "dev": "tsx watch src/server.ts",
     "s": "pnpm exec prisma studio"
   },
