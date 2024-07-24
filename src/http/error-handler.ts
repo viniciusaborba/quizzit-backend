@@ -26,6 +26,10 @@ export const errorHandler: FastifyErrorHandler = async (
     reply.status(400).send({ message: error.message })
   }
 
+  if (error instanceof UserAlreadyExistsError) {
+    reply.status(409).send({ message: error.message })
+  }
+
   if (error instanceof notStrictEqual) {
     reply.status(404).send({ message: error.message })
   }

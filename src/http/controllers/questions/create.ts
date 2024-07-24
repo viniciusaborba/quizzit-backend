@@ -41,7 +41,7 @@ export async function createQuestionRoute(app: FastifyInstance) {
       })
 
       if (result.isLeft()) {
-        throw new Error('')
+        throw new Error()
       }
 
       const question = result.value.question

@@ -1,6 +1,6 @@
 import { Question } from '@prisma/client'
 
-interface QuestionsRepositoryCreateProps {
+export interface QuestionsRepositoryCreateRequestProps {
   title?: string
   context?: string
   statement: string
@@ -9,5 +9,5 @@ interface QuestionsRepositoryCreateProps {
 }
 
 export interface QuestionsRepository {
-  create(data: QuestionsRepositoryCreateProps): Promise<Question>
+  create(data: QuestionsRepositoryCreateRequestProps): Promise<Question>
 }
