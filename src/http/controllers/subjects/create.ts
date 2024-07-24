@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { makeCreateSubjectUseCase } from 'src/factories/subjects/make-create-subjects'
+import { makeCreateSubjectUseCase } from 'src/factories/subjects/make-create-subject-use-case'
 import { z } from 'zod'
 
 export async function createSubjectRoute(app: FastifyInstance) {

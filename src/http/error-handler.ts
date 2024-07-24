@@ -1,6 +1,7 @@
 import { notStrictEqual } from 'assert'
 import { FastifyInstance } from 'fastify'
 import { InvalidCredentialsError } from 'src/errors/invalid-credentials-error'
+import { NotFoundError } from 'src/errors/not-found-error'
 import { UserAlreadyExistsError } from 'src/errors/user-already-exists'
 import { ZodError } from 'zod'
 
@@ -19,6 +20,10 @@ export const errorHandler: FastifyErrorHandler = async (
   }
 
   if (error instanceof UserAlreadyExistsError) {
+    reply.status(400).send({ message: error.message })
+  }
+
+  if (error instanceof NotFoundError) {
     reply.status(400).send({ message: error.message })
   }
 
