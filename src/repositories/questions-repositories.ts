@@ -10,4 +10,6 @@ export interface QuestionsRepositoryCreateRequestProps {
 
 export interface QuestionsRepository {
   create(data: QuestionsRepositoryCreateRequestProps): Promise<Question>
+  findById(id: number): Promise<Question | null>
+  delete(id: number): Promise<void>
 }
