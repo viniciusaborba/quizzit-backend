@@ -13,7 +13,7 @@ export async function readQuestionRoute(app: FastifyInstance) {
         summary: 'Read question',
         tags: ['Read'],
         params: z.object({
-          questionId: z.string().regex(/^\d+$/).transform(Number),
+          questionId: z.coerce.number(),
         }),
         response: {
           200: z.object({

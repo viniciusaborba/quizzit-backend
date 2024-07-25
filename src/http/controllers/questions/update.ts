@@ -5,17 +5,19 @@ import { z } from 'zod'
 
 export async function updateQuestionRoute(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().put(
-    '/questions',
+    '/questions/:questionId',
     {
       schema: {
         summary: 'Update new question',
         tags: ['auth'],
+        params: z.object({
+          questionId: z.coerce.number(),
+        }),
         body: z.object({
           title: z.string().optional(),
           context: z.string().optional(),
           statement: z.string().min(10).optional(),
           userId: z.string().uuid(),
-          questionId: z.number(),
         }),
         response: {
           204: z.object({}),
@@ -26,7 +28,9 @@ export async function updateQuestionRoute(app: FastifyInstance) {
       },
     },
     async (req, res) => {
-      const { statement, context, title, userId, questionId } = req.body
+      const { statement, context, title, userId } = req.body
+
+      const { questionId } = req.params
 
       const updateQuestionUseCase = makeUpdateQuestionUseCase()
 
