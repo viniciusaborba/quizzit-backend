@@ -77,6 +77,8 @@ model Question {
 
   subjects Subject[]
 
+  createdAt DateTime @default(now()) @map("created_at")
+
   alternatives Alternative[]
 
   @@map("questions")

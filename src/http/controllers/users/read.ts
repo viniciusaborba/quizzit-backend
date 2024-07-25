@@ -48,7 +48,7 @@ export async function readUserRoute(app: FastifyInstance) {
 
       const user = result.value.user
 
-      return res.status(201).send({
+      return res.status(200).send({
         user: ReadUserPresenter.toHTTP(user),
       })
     },

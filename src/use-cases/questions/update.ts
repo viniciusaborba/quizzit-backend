@@ -1,10 +1,16 @@
 import { Either, left, right } from 'src/@types/either'
 import { NotAllowedError } from 'src/errors/not-allowed-error'
 import { NotFoundError } from 'src/errors/not-found-error'
-import {
-  QuestionsRepository,
-  QuestionsRepositoryUpdateRequestProps,
-} from 'src/repositories/questions-repositories'
+import { QuestionsRepository } from 'src/repositories/questions-repositories'
+
+export interface UpdateQuestionRequest {
+  title?: string
+  context?: string
+  statement?: string
+  userId: string
+  subjects?: string[]
+  questionId: number
+}
 
 type UpdateQuestionResponse = Either<NotFoundError | NotAllowedError, null>
 
@@ -17,7 +23,7 @@ export class UpdateQuestionUseCase {
     context,
     userId,
     questionId,
-  }: QuestionsRepositoryUpdateRequestProps): Promise<UpdateQuestionResponse> {
+  }: UpdateQuestionRequest): Promise<UpdateQuestionResponse> {
     const question = await this.questionsRepository.findById(questionId)
 
     if (!question) {
