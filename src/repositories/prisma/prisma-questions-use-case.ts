@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client'
 import { prisma } from 'src/lib/prisma'
 
 import {
@@ -14,6 +15,15 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
     })
 
     return question
+  }
+
+  async update(id: number, data: Prisma.QuestionUncheckedUpdateInput) {
+    await prisma.question.update({
+      where: {
+        id,
+      },
+      data,
+    })
   }
 
   async delete(id: number) {

@@ -6,7 +6,9 @@
   "plugins": ["simple-import-sort"],
   "rules": {
     "no-useless-constructor": "off",
-    "simple-import-sort/imports": "error"
+    "simple-import-sort/imports": "error",
+    "no-unused-expressions":"off",
+    "no-sequences":"off"
   },
   "parserOptions": {
     "sourceType": "module",
