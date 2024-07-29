@@ -2,7 +2,6 @@ import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { NotFoundError } from 'src/errors/not-found-error'
 import { makeReadQuestionUseCase } from 'src/factories/questions/make-read-question-use-case'
-import { ReadQuestionPresenter } from 'src/presenter/read-question-presenter'
 import { z } from 'zod'
 
 export async function readQuestionRoute(app: FastifyInstance) {
@@ -23,6 +22,7 @@ export async function readQuestionRoute(app: FastifyInstance) {
               statement: z.string(),
               context: z.string().nullable(),
               createdAt: z.date(),
+              subjectId: z.string().uuid(),
             }),
           }),
           400: z.object({
@@ -47,7 +47,7 @@ export async function readQuestionRoute(app: FastifyInstance) {
       const question = result.value.question
 
       return res.status(200).send({
-        question: ReadQuestionPresenter.toHTTP(question),
+        question,
       })
     },
   )

@@ -1,5 +1,6 @@
 import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import { SubjectAlreadyExistsError } from 'src/errors/subject-already-exists'
 import { makeCreateSubjectUseCase } from 'src/factories/subjects/make-create-subject-use-case'
 import { z } from 'zod'
 
@@ -35,7 +36,7 @@ export async function createSubjectRoute(app: FastifyInstance) {
       })
 
       if (result.isLeft()) {
-        throw new Error('')
+        throw new SubjectAlreadyExistsError('Subject already exists!')
       }
 
       const subject = result.value.subject

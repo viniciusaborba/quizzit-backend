@@ -8,7 +8,7 @@ export interface UpdateQuestionRequest {
   context?: string
   statement?: string
   userId: string
-  subjects?: string[]
+  subjectId?: string
   questionId: number
 }
 
@@ -23,6 +23,7 @@ export class UpdateQuestionUseCase {
     context,
     userId,
     questionId,
+    subjectId,
   }: UpdateQuestionRequest): Promise<UpdateQuestionResponse> {
     const question = await this.questionsRepository.findById(questionId)
 
@@ -35,7 +36,9 @@ export class UpdateQuestionUseCase {
     }
 
     question.statement = statement ?? question.statement
-    ;(question.context = context || null), (question.title = title || null)
+    ;(question.context = context ?? question.context),
+      (question.title = title || question.title),
+      (question.subjectId = subjectId || question.subjectId)
 
     await this.questionsRepository.update(question.id, question)
 

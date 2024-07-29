@@ -18,6 +18,7 @@ export async function updateQuestionRoute(app: FastifyInstance) {
           context: z.string().optional(),
           statement: z.string().min(10).optional(),
           userId: z.string().uuid(),
+          subjectId: z.string().uuid().optional(),
         }),
         response: {
           204: z.object({}),
@@ -28,7 +29,7 @@ export async function updateQuestionRoute(app: FastifyInstance) {
       },
     },
     async (req, res) => {
-      const { statement, context, title, userId } = req.body
+      const { statement, context, title, userId, subjectId } = req.body
 
       const { questionId } = req.params
 
@@ -40,6 +41,7 @@ export async function updateQuestionRoute(app: FastifyInstance) {
         title,
         questionId,
         userId,
+        subjectId,
       })
 
       if (result.isLeft()) {

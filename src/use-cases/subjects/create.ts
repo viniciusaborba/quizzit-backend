@@ -1,5 +1,6 @@
 import { Subject } from '@prisma/client'
 import { Either, left, right } from 'src/@types/either'
+import { SubjectAlreadyExistsError } from 'src/errors/subject-already-exists'
 import { SubjectsRepository } from 'src/repositories/subjects-repository'
 import { formatToSlug } from 'src/utils/format-to-slug'
 
@@ -9,7 +10,7 @@ interface CreateSubjectRequest {
 }
 
 type CreateSubjectResponse = Either<
-  Error,
+  SubjectAlreadyExistsError,
   {
     subject: Subject
   }
@@ -27,7 +28,7 @@ export class CreateSubjectUseCase {
     )
 
     if (slugAlreadyExists) {
-      return left(new Error())
+      return left(new SubjectAlreadyExistsError())
     }
 
     const subject = await this.subjectsRepository.create({

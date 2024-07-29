@@ -75,7 +75,8 @@ model Question {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
-  subjects Subject[]
+  subjects  Subject @relation(fields: [subjectId], references: [id])
+  subjectId String  @map("subject_id")
 
   createdAt DateTime @default(now()) @map("created_at")
 

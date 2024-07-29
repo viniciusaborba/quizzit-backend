@@ -1,9 +1,14 @@
 import { Question } from '@prisma/client'
 import { Either, right } from 'src/@types/either'
-import {
-  QuestionsRepository,
-  QuestionsRepositoryCreateRequestProps,
-} from 'src/repositories/questions-repositories'
+import { QuestionsRepository } from 'src/repositories/questions-repositories'
+
+interface CreateQuestionRequest {
+  title?: string
+  statement: string
+  context?: string
+  userId: string
+  subjectId: string
+}
 
 type CreateQuestionResponse = Either<
   null,
@@ -20,14 +25,14 @@ export class CreateQuestionUseCase {
     statement,
     context,
     userId,
-    subjects,
-  }: QuestionsRepositoryCreateRequestProps): Promise<CreateQuestionResponse> {
+    subjectId,
+  }: CreateQuestionRequest): Promise<CreateQuestionResponse> {
     const question = await this.questionsRepository.create({
       statement,
       title,
       context,
       userId,
-      subjects,
+      subjectId,
     })
 
     return right({

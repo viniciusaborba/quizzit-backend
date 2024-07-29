@@ -1,10 +1,7 @@
 import { Prisma } from '@prisma/client'
 import { prisma } from 'src/lib/prisma'
 
-import {
-  QuestionsRepository,
-  QuestionsRepositoryCreateRequestProps,
-} from '../questions-repositories'
+import { QuestionsRepository } from '../questions-repositories'
 
 export class PrismaQuestionsRepository implements QuestionsRepository {
   async findById(id: number) {
@@ -34,17 +31,9 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
     })
   }
 
-  async create(data: QuestionsRepositoryCreateRequestProps) {
+  async create(data: Prisma.QuestionUncheckedCreateInput) {
     const question = await prisma.question.create({
-      data: {
-        statement: data.statement,
-        context: data.context,
-        title: data.title,
-        userId: data.userId,
-        subjects: {
-          connect: data.subjects.map((slug) => ({ slug })),
-        },
-      },
+      data,
     })
 
     return question
