@@ -43,34 +43,23 @@ describe('Create question', async () => {
 
     const user = userRes.value.user
 
-    const [subjectRes1, subjectRes2] = await Promise.all([
-      createSubjectUseCase.execute({
-        name: 'test subject 1',
-        description: 'subject-description-1',
-      }),
-      createSubjectUseCase.execute({
-        name: 'test subject 2',
-        description: 'subject-description-2',
-      }),
-    ])
+    const subjectRes = await createSubjectUseCase.execute({
+      name: 'test subject 1',
+      description: 'subject-description-1',
+    })
 
-    if (subjectRes1.isLeft()) {
+    if (subjectRes.isLeft()) {
       return left(new Error())
     }
 
-    if (subjectRes2.isLeft()) {
-      return left(new Error())
-    }
-
-    const subject1 = subjectRes1.value.subject
-    const subject2 = subjectRes2.value.subject
+    const subject = subjectRes.value.subject
 
     const questionRes = await createQuestionUseCase.execute({
       statement: 'test-question-statement',
       context: 'test-question-context',
       userId: user.id,
       title: 'test-question-title',
-      subjects: [subject1.slug, subject2.slug],
+      subjectId: subject.id,
     })
 
     if (questionRes.isLeft()) {
