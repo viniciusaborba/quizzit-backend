@@ -5,6 +5,16 @@ import { SubjectsRepository } from 'src/repositories/subjects-repository'
 export class InMemorySubjectsRepository implements SubjectsRepository {
   public items: Subject[] = []
 
+  async findById(id: string): Promise<Subject | null> {
+    const subject = this.items.find((item) => item.id === id)
+
+    if (!subject) {
+      return null
+    }
+
+    return subject
+  }
+
   async findBySlug(slug: string): Promise<Subject | null> {
     const subject = this.items.find((item) => item.slug === slug)
 
@@ -13,6 +23,14 @@ export class InMemorySubjectsRepository implements SubjectsRepository {
     }
 
     return subject
+  }
+
+  async delete(id: string): Promise<void> {
+    const index = this.items.findIndex((item) => item.id === id)
+
+    if (index !== -1) {
+      this.items.splice(index, 1)
+    }
   }
 
   async create(data: Prisma.SubjectCreateInput): Promise<Subject> {
