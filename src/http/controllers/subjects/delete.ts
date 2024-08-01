@@ -2,18 +2,18 @@ import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { left } from 'src/@types/either'
 import { NotFoundError } from 'src/errors/not-found-error'
-import { makeDeleteQuestionUseCase } from 'src/factories/questions/make-delete-question-use-case'
+import { makeDeleteSubjectUseCase } from 'src/factories/subjects/make-delete-subject-use-case'
 import { z } from 'zod'
 
-export async function deleteQuestionRoute(app: FastifyInstance) {
+export async function deleteSubjectRoute(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().delete(
-    '/questions/:questionId',
+    '/subjects/:subjectId',
     {
       schema: {
-        summary: 'Delete question',
+        summary: 'Delete subject',
         tags: ['auth'],
         params: z.object({
-          questionId: z.coerce.number(),
+          subjectId: z.string().uuid(),
         }),
         response: {
           204: z.object({}),
@@ -24,16 +24,16 @@ export async function deleteQuestionRoute(app: FastifyInstance) {
       },
     },
     async (req, res) => {
-      const { questionId } = req.params
+      const { subjectId } = req.params
 
-      const deleteQuestionUseCase = makeDeleteQuestionUseCase()
+      const deleteSubjectUseCase = makeDeleteSubjectUseCase()
 
-      const result = await deleteQuestionUseCase.execute({
-        questionId,
+      const result = await deleteSubjectUseCase.execute({
+        subjectId,
       })
 
       if (result.isLeft()) {
-        return left(new NotFoundError())
+        return left(new NotFoundError('Subject not found!'))
       }
 
       return res.status(204).send()
