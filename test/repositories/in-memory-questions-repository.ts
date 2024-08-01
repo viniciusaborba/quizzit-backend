@@ -4,6 +4,12 @@ import { QuestionsRepository } from 'src/repositories/questions-repositories'
 export class InMemoryQuestionsRepository implements QuestionsRepository {
   public items: Question[] = []
 
+  async findManyBySubjectId(id: string, page: number): Promise<Question[]> {
+    return this.items
+      .filter((item) => item.subjectId === id)
+      .slice((page - 1) * 20, page * 20)
+  }
+
   async update(
     id: number,
     data: Prisma.QuestionUncheckedUpdateInput,

@@ -4,6 +4,18 @@ import { prisma } from 'src/lib/prisma'
 import { QuestionsRepository } from '../questions-repositories'
 
 export class PrismaQuestionsRepository implements QuestionsRepository {
+  async findManyBySubjectId(id: string, page: number) {
+    const questions = await prisma.question.findMany({
+      where: {
+        subjectId: id,
+      },
+      take: 20,
+      skip: (page - 1) * 20,
+    })
+
+    return questions
+  }
+
   async findById(id: number) {
     const question = await prisma.question.findUnique({
       where: {
