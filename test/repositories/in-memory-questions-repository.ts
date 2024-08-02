@@ -1,5 +1,5 @@
 import { Prisma, Question } from '@prisma/client'
-import { QuestionsRepository } from 'src/repositories/questions-repositories'
+import { QuestionsRepository } from 'src/repositories/questions-repository'
 
 export class InMemoryQuestionsRepository implements QuestionsRepository {
   public items: Question[] = []

@@ -1,7 +1,7 @@
 import { Question } from '@prisma/client'
 import { Either, left, right } from 'src/@types/either'
 import { NotFoundError } from 'src/errors/not-found-error'
-import { QuestionsRepository } from 'src/repositories/questions-repositories'
+import { QuestionsRepository } from 'src/repositories/questions-repository'
 
 interface ReadQuestionUseCaseRequest {
   questionId: number

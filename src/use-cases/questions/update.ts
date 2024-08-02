@@ -1,7 +1,7 @@
 import { Either, left, right } from 'src/@types/either'
 import { NotAllowedError } from 'src/errors/not-allowed-error'
 import { NotFoundError } from 'src/errors/not-found-error'
-import { QuestionsRepository } from 'src/repositories/questions-repositories'
+import { QuestionsRepository } from 'src/repositories/questions-repository'
 
 export interface UpdateQuestionRequest {
   title?: string

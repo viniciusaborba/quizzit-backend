@@ -1,6 +1,6 @@
 import { Either, left, right } from 'src/@types/either'
 import { NotFoundError } from 'src/errors/not-found-error'
-import { QuestionsRepository } from 'src/repositories/questions-repositories'
+import { QuestionsRepository } from 'src/repositories/questions-repository'
 
 interface DeleteQuestionRequest {
   questionId: number

@@ -1,4 +1,4 @@
-import { PrismaQuestionsRepository } from 'src/repositories/prisma/prisma-questions-use-case'
+import { PrismaQuestionsRepository } from 'src/repositories/prisma/prisma-questions-repository'
 import { CreateQuestionUseCase } from 'src/use-cases/questions/create'
 
 export function makeCreateQuestionUseCase() {

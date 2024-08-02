@@ -1,6 +1,6 @@
 import { Question } from '@prisma/client'
 import { Either, right } from 'src/@types/either'
-import { QuestionsRepository } from 'src/repositories/questions-repositories'
+import { QuestionsRepository } from 'src/repositories/questions-repository'
 
 interface CreateQuestionRequest {
   title?: string

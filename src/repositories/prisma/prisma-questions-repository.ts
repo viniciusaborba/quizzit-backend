@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client'
 import { prisma } from 'src/lib/prisma'
 
-import { QuestionsRepository } from '../questions-repositories'
+import { QuestionsRepository } from '../questions-repository'
 
 export class PrismaQuestionsRepository implements QuestionsRepository {
   async findManyBySubjectId(id: string, page: number) {
