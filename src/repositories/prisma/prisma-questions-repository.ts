@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client'
 import { prisma } from 'src/lib/prisma'
 
-import { QuestionsRepository } from '../questions-repository'
+import { Alternative, QuestionsRepository } from '../questions-repository'
 
 export class PrismaQuestionsRepository implements QuestionsRepository {
   async findManyBySubjectId(id: string, page: number) {
@@ -43,9 +43,22 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
     })
   }
 
-  async create(data: Prisma.QuestionUncheckedCreateInput) {
+  async create(
+    data: Prisma.QuestionUncheckedCreateInput,
+    alternatives: Alternative[],
+  ) {
     const question = await prisma.question.create({
-      data,
+      data: {
+        ...data,
+        alternatives: {
+          createMany: {
+            data: alternatives.map((alternative) => ({
+              content: alternative.content,
+              isCorrect: alternative.isCorrect,
+            })),
+          },
+        },
+      },
     })
 
     return question

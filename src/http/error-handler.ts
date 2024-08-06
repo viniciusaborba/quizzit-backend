@@ -1,5 +1,6 @@
 import { notStrictEqual } from 'assert'
 import { FastifyInstance } from 'fastify'
+import { InvalidAlternativesFormatError } from 'src/errors/invalid-alternatives-format'
 import { InvalidCredentialsError } from 'src/errors/invalid-credentials-error'
 import { NotAllowedError } from 'src/errors/not-allowed-error'
 import { NotFoundError } from 'src/errors/not-found-error'
@@ -22,6 +23,10 @@ export const errorHandler: FastifyErrorHandler = async (
   }
 
   if (error instanceof UserAlreadyExistsError) {
+    reply.status(400).send({ message: error.message })
+  }
+
+  if (error instanceof InvalidAlternativesFormatError) {
     reply.status(400).send({ message: error.message })
   }
 

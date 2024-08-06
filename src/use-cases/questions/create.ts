@@ -1,6 +1,10 @@
 import { Question } from '@prisma/client'
-import { Either, right } from 'src/@types/either'
-import { QuestionsRepository } from 'src/repositories/questions-repository'
+import { Either, left, right } from 'src/@types/either'
+import { InvalidAlternativesFormatError } from 'src/errors/invalid-alternatives-format'
+import {
+  Alternative,
+  QuestionsRepository,
+} from 'src/repositories/questions-repository'
 
 interface CreateQuestionRequest {
   title?: string
@@ -8,10 +12,11 @@ interface CreateQuestionRequest {
   context?: string
   userId: string
   subjectId: string
+  alternatives: Alternative[]
 }
 
 type CreateQuestionResponse = Either<
-  null,
+  InvalidAlternativesFormatError,
   {
     question: Question
   }
@@ -26,14 +31,31 @@ export class CreateQuestionUseCase {
     context,
     userId,
     subjectId,
+    alternatives,
   }: CreateQuestionRequest): Promise<CreateQuestionResponse> {
-    const question = await this.questionsRepository.create({
-      statement,
-      title,
-      context,
-      userId,
-      subjectId,
-    })
+    const atLeastOneAlternativeIsCorrect = alternatives.filter(
+      (a) => a.isCorrect,
+    )
+
+    if (
+      atLeastOneAlternativeIsCorrect.length === 0 ||
+      atLeastOneAlternativeIsCorrect.length >= 2
+    ) {
+      return left(
+        new InvalidAlternativesFormatError('Invalid alternatives format!'),
+      )
+    }
+
+    const question = await this.questionsRepository.create(
+      {
+        statement,
+        title,
+        context,
+        userId,
+        subjectId,
+      },
+      alternatives,
+    )
 
     return right({
       question,

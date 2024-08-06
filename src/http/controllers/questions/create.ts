@@ -1,5 +1,6 @@
 import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import { InvalidAlternativesFormatError } from 'src/errors/invalid-alternatives-format'
 import { makeCreateQuestionUseCase } from 'src/factories/questions/make-create-question-use-case'
 import { z } from 'zod'
 
@@ -16,6 +17,12 @@ export async function createQuestionRoute(app: FastifyInstance) {
           statement: z.string().min(10),
           userId: z.string().uuid(),
           subjectId: z.string().uuid(),
+          alternatives: z.array(
+            z.object({
+              content: z.string(),
+              isCorrect: z.boolean().default(false),
+            }),
+          ),
         }),
         response: {
           201: z.object({
@@ -28,7 +35,8 @@ export async function createQuestionRoute(app: FastifyInstance) {
       },
     },
     async (req, res) => {
-      const { statement, context, title, userId, subjectId } = req.body
+      const { statement, context, title, userId, subjectId, alternatives } =
+        req.body
 
       const createQuestionUseCase = makeCreateQuestionUseCase()
 
@@ -38,10 +46,11 @@ export async function createQuestionRoute(app: FastifyInstance) {
         userId,
         title,
         subjectId,
+        alternatives,
       })
 
       if (result.isLeft()) {
-        throw new Error()
+        throw new InvalidAlternativesFormatError('Invalid alternatives format!')
       }
 
       const question = result.value.question
