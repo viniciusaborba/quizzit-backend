@@ -10,6 +10,7 @@ import {
 } from 'fastify-type-provider-zod'
 
 import { env } from './env'
+import { alternativesRoutes } from './http/controllers/alternatives/routes'
 import { questionsRoutes } from './http/controllers/questions/routes'
 import { subjectsRoutes } from './http/controllers/subjects/routes'
 import { usersRoutes } from './http/controllers/users/routes'
@@ -55,6 +56,7 @@ app.register(fastifySwaggerUi, {
 app.register(usersRoutes)
 app.register(questionsRoutes)
 app.register(subjectsRoutes)
+app.register(alternativesRoutes)
 
 app.setErrorHandler(errorHandler)
 
