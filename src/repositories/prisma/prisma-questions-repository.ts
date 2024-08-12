@@ -16,6 +16,19 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
     return questions
   }
 
+  async findByIdRead(id: number) {
+    const question = await prisma.question.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        alternatives: true,
+      },
+    })
+
+    return question
+  }
+
   async findById(id: number) {
     const question = await prisma.question.findUnique({
       where: {

@@ -23,6 +23,12 @@ export async function readQuestionRoute(app: FastifyInstance) {
               context: z.string().nullable(),
               createdAt: z.date(),
               subjectId: z.string().uuid(),
+              alternatives: z.array(
+                z.object({
+                  content: z.string(),
+                  isCorrect: z.boolean(),
+                }),
+              ),
             }),
           }),
           400: z.object({
